@@ -1,0 +1,31 @@
+
+DEF TRS Transform {
+    # translation 1 0 0
+    children [
+        Shape {
+            appearance Appearance {
+                material SimpleMaterial {
+                    color 1 0 0
+                    metallic TRUE
+                    roughness 0
+                }
+            }
+            geometry Box {
+                size 0.1 0.1 0.1
+            }
+        }
+        Inline {
+            url "robot.wrl"
+        }
+        DEF TIMER TimeSensor {
+              cycleInterval 3
+            loop TRUE
+        }
+        DEF ROT RotationInterpolator {
+            key [0 1]
+            keyValue [0 1 0 0, 0 1 0 6.2832]
+        }
+        ROUTE TIMER.fraction_changed TO ROT.set_fraction
+        ROUTE ROT.value_changed TO TRS.rotation
+    ]
+}
